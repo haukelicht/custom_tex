@@ -1,0 +1,63 @@
+\NeedsTeXFormat{LaTeX2e}[1994/06/01]
+\ProvidesPackage{items}[2018/09/17 Custom Items Package]
+
+\RequirePackage{enumitem}
+\RequirePackage{kvoptions}
+
+\SetupKeyvalOptions{%
+    family = items%
+    , prefix = items@%
+    , setkeys = \kvsetkeys%
+}
+
+% ------- Declare Options ------- %
+\DeclareStringOption[1ex]{itemsep}[1ex]%
+\DeclareStringOption[1ex]{parsep}[1ex]%
+\DeclareStringOption[1ex]{topsep}[1ex]%
+\DeclareStringOption[6ex]{leftmargin}[6ex]%
+\DeclareStringOption[1ex]{labelsep}[1ex]%
+\DeclareBoolOption{narrow}
+
+% ------- Process Options ------- %
+\ProcessKeyvalOptions*
+
+% ------- Define Option Behavior ------- %
+\ifitems@narrow
+    \setlist[itemize,enumerate]{%
+        itemsep=0ex%
+        , parsep=0ex%
+        , topsep=0ex%
+        , leftmargin=3ex%
+        , labelsep=1ex
+    }%
+\else
+    \setlist[itemize,enumerate]{%
+        itemsep=\items@itemsep%
+        , parsep=\items@parsep%
+        , topsep=\items@topsep%
+        , leftmargin=\items@leftmargin%
+        , labelsep=\items@labelsep
+    }%
+\fi 
+
+% ------- Define Commands ------- %
+\newcommand{\itmz}[2][--]{%
+    \begin{itemize}[label={#1}]%
+    #2%
+    \end{itemize}%
+    }%
+
+\newcommand{\numz}[2][(\roman*)]{%
+    \begin{enumerate}[label={#1}]%
+    #2%
+    \end{enumerate}%
+    }%
+
+\newcommand{\roparnumz}[1]{\numz{#1}}
+\newcommand{\rodotnumz}[1]{\numz[\roman*.]{#1}}
+\newcommand{\arparnumz}[1]{\numz[(\arabic*)]{#1}}
+\newcommand{\ardotnumz}[1]{\numz[\arabic*.]{#1}}
+\newcommand{\alparnumz}[1]{\numz[(\alph*)]{#1}}
+\newcommand{\aldotnumz}[1]{\numz[\alph*.]{#1}}
+
+\endinput

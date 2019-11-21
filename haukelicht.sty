@@ -1,0 +1,112 @@
+\NeedsTeXFormat{LaTeX2e}[1994/06/01]
+\ProvidesPackage{haukelicht}[2018/09/17 Personal Data Package]
+
+% ------- Load Required Packages ------- %
+\@ifpackageloaded{kvoptions}{}{\RequirePackage{kvoptions}}
+\@ifpackageloaded{hyperref}{}{\RequirePackage[hidelinks]{hyperref}}
+\@ifpackageloaded{etoolbox}{}{\RequirePackage{etoolbox}}
+
+% ------- Setup ------- %
+\SetupKeyvalOptions{%
+    family = I%
+    , prefix = I@%
+    , setkeys = \kvsetkeys%
+}
+
+% ------- Declare Options ------- %
+% \DeclareBoolOption[false]{symbol}
+\DeclareBoolOption[true]{english}
+\DeclareBoolOption[true]{work}
+\DeclareStringOption[hauke.licht@uzh.ch]{email}
+\DeclareStringOption[haukelicht.github.io]{website}
+\DeclareStringOption[]{twitter}
+\DeclareStringOption[]{department}
+\DeclareStringOption[]{university}
+\DeclareStringOption{address}
+\DeclareStringOption{addrstreet}
+\DeclareStringOption{addrcity}
+\DeclareStringOption{room}
+\DeclareStringOption{phone}
+\DeclareStringOption[https://twitter.com/hauke_licht]{twitterurl}
+\DeclareStringOption[hauke\underline{ }licht]{twitterhandle}
+
+
+% ------- Process Options ------- %
+\ProcessKeyvalOptions*
+
+% ------- Define Option Behavior ------- %
+\ifI@english
+    % \if\I@department\@empty
+    \renewcommand*{\I@department}{Department of Political Science}
+    % \fi
+    % \if\I@university\@empty
+    \renewcommand*{\I@university}{University of Zurich}
+    % \fi
+    \ifI@work
+        \renewcommand*{\I@address}{Affolternstrasse 56, CH-8050 Zurich}
+        \renewcommand*{\I@addrstreet}{Affolternstrasse 56}
+        \renewcommand*{\I@addrcity}{CH-8050 Zurich}
+    \else
+        \renewcommand*{\I@address}{Burstwiesenstrasse 78, CH-8055 Zurich}
+        \renewcommand*{\I@addrstreet}{Burstwiesenstrasse 78}
+        \renewcommand*{\I@addrcity}{CH-8055 Zurich}
+    \fi
+\else
+    \renewcommand*{\I@department}{Institut f\"{u}r Politikwissenschaft}
+    \renewcommand*{\I@university}{Universit\"{a}t~Z\"{u}rich}
+    \ifI@work
+        \renewcommand*{\I@address}{Affolternstrasse 56, 8050 Zürich}
+        \renewcommand*{\I@addrstreet}{Affolternstrasse 56}
+        \renewcommand*{\I@addrcity}{8050 Zürich}
+    \else
+        \renewcommand*{\I@address}{Burstwiesenstrasse 78, CH-8055 Zurich}
+        \renewcommand*{\I@addrstreet}{Burstwiesenstrasse 78}
+        \renewcommand*{\I@addrcity}{8055 Zürich}
+    \fi
+\fi
+
+\ifI@work
+    \renewcommand*{\I@phone}{+41\,(0)\,44\,634\,54\,51}
+\else
+    \renewcommand*{\I@phone}{+41\,(0)\,76\,475\,71\,76}
+\fi
+
+\renewcommand*{\I@room}{AFL~H~361}
+
+% ------- Define Commands ------- %
+\newcommand{\iauthor}{Hauke Licht}
+\newcommand{\idepartment}{\I@department}
+\newcommand{\iuniversity}{\I@university}
+\newcommand{\iaddress}{\I@address}
+\newcommand{\iaddrstreet}{\I@addrstreet}
+\newcommand{\iaddrcity}{\I@addrcity}
+\newcommand{\iroom}{\I@room}
+\newcommand{\iphone}{\I@phone}
+\newcommand{\iemail}{\href{mailto:\I@email}{\I@email}}
+\newcommand{\itwitter}{\href{\I@twitterurl}{\I@twitterhandle}}
+\newcommand{\iwebsite}{\href{https://\I@website}{\I@website}}
+\ifI@english
+    \newcommand{\iaffiliation}{Ph.D.~student at the \idepartment, \iuniversity.}
+    \newcommand{\icontact}{\mbox{Contact:}~\iemail, \iaddress, room \iroom, \iphone}
+\else
+    \newcommand{\iaffiliation}{\mbox{Doktorand} am \idepartment, \iuniversity.}
+    \newcommand{\icontact}{\mbox{Kontakt:}~\iemail, \iaddress, Raum \iroom, \iphone}
+\fi
+\newcommand{\ithanks}{%
+    \ifdef{\thanks}{%
+        \thanks{\ \iaffiliation\ \icontact}%
+    }{%
+        \footnote{\iaffiliation\ \icontact}%
+    }
+}
+% \ifI@symbol
+%     \let\theemail\iemail
+%     \renewcommand{\iemail}{\Letter~\theemail}
+    
+%     \let\thetwitter\itwitter
+%     \renewcommand{\itwitter}{\faTwitter\,\thetwitter}
+% \fi
+
+
+\endinput
+
